@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.OfflineVideoActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/playerView"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:animateLayoutChanges="true"
+            android:background="@color/colorBlack"
+            app:controller_layout_id="@layout/overlay_controller_media"
+            app:hide_on_touch="false"
+            app:show_timeout="2000" />
+
+        <ProgressBar
+            android:id="@+id/loadingOffline"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/colorOrange"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.nimbusds:srp6a-android:2.0.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.nimbusds/srp6a-android/2.0.2/a2edbdfea8ee7b191250ee043fb7e2338cb11b17/srp6a-android-2.0.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.nimbusds/srp6a-android/2.0.2/48264c0080f2d8720f5209798a609a4d810d266a/srp6a-android-2.0.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.nimbusds/srp6a-android/2.0.2/84c8a20d9c0c363ddda236f6b717ec54766ccfd7/srp6a-android-2.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

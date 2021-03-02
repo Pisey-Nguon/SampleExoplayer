@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    android:id="@+id/titleHeaderDevices"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="10dp"
+    android:textStyle="bold"
+    android:textSize="24sp"
+    android:textAppearance="?android:attr/textAppearanceListItemSmall"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

@@ -1,0 +1,19 @@
+<component name="libraryTable">
+  <library name="Gradle: com.android.support:mediarouter-v7:22.2.1@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2e0bf56825a841b6a88269c95bf8fd55/mediarouter-v7-22.2.1/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2e0bf56825a841b6a88269c95bf8fd55/mediarouter-v7-22.2.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2e0bf56825a841b6a88269c95bf8fd55/mediarouter-v7-22.2.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2e0bf56825a841b6a88269c95bf8fd55/mediarouter-v7-22.2.1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2e0bf56825a841b6a88269c95bf8fd55/mediarouter-v7-22.2.1/jars/libs/internal_impl-22.2.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.support/mediarouter-v7/22.2.1/8deb3468af19c33f96a2456cf55cbc1e54bd2a61/mediarouter-v7-22.2.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.support/mediarouter-v7/22.2.1/1da514c9c3afffdc4da142f3905b1c76d71c236b/mediarouter-v7-22.2.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,3 @@
+include ':Connect-SDK-Android'
+include ':app'
+rootProject.name = "Streaming"

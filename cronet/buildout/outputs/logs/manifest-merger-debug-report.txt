@@ -1,0 +1,29 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml:16:1-21:12
+INJECTED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml:16:1-21:12
+INJECTED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml:16:1-21:12
+	package
+		ADDED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml:17:5-55
+		INJECTED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml
+		INJECTED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml:16:11-69
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml:19:5-78
+	android:name
+		ADDED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml:19:22-76
+uses-sdk
+INJECTED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml
+INJECTED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml
+INJECTED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml
+INJECTED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml
+		ADDED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml
+		INJECTED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml
+		ADDED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml
+		INJECTED from /Users/apple/StudioProjects/ExoPlayer/extensions/cronet/src/main/AndroidManifest.xml

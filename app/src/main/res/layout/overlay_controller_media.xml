@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/customPlayBackControlView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBlackTransparent20"
+    android:orientation="vertical">
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
+            android:id="@+id/seekBarControllerBrightness"
+            android:layout_marginStart="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:splitTrack="false"
+            android:progressDrawable="@drawable/seekbar_exo_controller"
+            android:thumb="@drawable/seekbar_drawable_thum"
+            app:seekBarRotation="CW270"/>
+        <LinearLayout
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@+id/btnRewind"
+                android:src="@drawable/exo_ic_rewind"
+                android:background="@null"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+            <ImageButton
+                android:id="@+id/btnPlay"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:src="@drawable/exo_controls_play" />
+            <ImageButton
+                android:id="@+id/btnForward"
+                android:src="@drawable/exo_ic_forward"
+                android:background="@null"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+        </LinearLayout>
+        <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
+            android:id="@+id/seekBarControllerVolume"
+            android:layout_marginEnd="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:splitTrack="false"
+            android:progressDrawable="@drawable/seekbar_exo_controller"
+            android:thumb="@drawable/seekbar_drawable_thum"
+            app:seekBarRotation="CW270"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_alignParentEnd="true"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_alignParentEnd="true"
+            android:background="@android:color/transparent"
+            android:text="Screen Mirror"
+            android:textAllCaps="false"
+            android:drawableLeft="@drawable/exo_ic_subtitle_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:layout_alignParentEnd="true"
+            android:background="@android:color/transparent"
+            android:text="Audio&amp;Subtitles"
+            android:textAllCaps="false"
+            android:drawableLeft="@drawable/exo_ic_subtitle_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btnSetting"
+            android:background="@android:color/transparent"
+            android:text="Setting"
+            android:textAllCaps="false"
+            android:drawableLeft="@drawable/ic_setting_fill_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <com.google.android.exoplayer2.ui.DefaultTimeBar
+            android:id="@+id/exo_progress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:bar_height="2dp"
+            app:played_ad_marker_color="@color/colorWhite"
+            app:played_color="@color/colorOrange"
+            app:buffered_color="@color/colorBuffer"
+            app:scrubber_dragged_size="24dp"
+            app:scrubber_enabled_size="12dp"
+            app:unplayed_color="@color/colorGray" />
+
+        <TextView
+            android:id="@id/exo_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:text="--:--"
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>
+

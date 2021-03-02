@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: xmlunit:xmlunit:1.4">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/xmlunit/xmlunit/1.4/d1b703573ac51bf425e9451f611a6d5fb55587bf/xmlunit-1.4.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/xmlunit/xmlunit/1.4/ffa0f2cf6c172878c485b6366c59519301ff03f6/xmlunit-1.4-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/xmlunit/xmlunit/1.4/5a0161b723f92cc4b6884b241532e4f62c6c1148/xmlunit-1.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

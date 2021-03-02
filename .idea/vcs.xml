@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Connect-SDK-Android" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Connect-SDK-Android/core" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Connect-SDK-Android/modules/firetv" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Connect-SDK-Android/modules/google_cast" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/video-mirror" vcs="Git" />
+  </component>
+</project>

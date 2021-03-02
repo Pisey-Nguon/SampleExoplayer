@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.MainActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/exoToolbar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize">
+        <LinearLayout
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/btnDownload"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Download"/>
+            <Button
+                android:id="@+id/btnOpenPlay"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Open Play"/>
+            <Button
+                android:id="@+id/btnPause"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pause"/>
+            <Button
+                android:id="@+id/btnResume"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resume"/>
+            <androidx.mediarouter.app.MediaRouteButton
+                android:id="@+id/media_route_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:mediaRouteTypes="user"
+                android:visibility="visible" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/playerView"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:animateLayoutChanges="false"
+            android:background="@color/colorBlack"
+            app:controller_layout_id="@layout/overlay_controller_media"
+            app:hide_on_touch="false"
+            app:show_timeout="2000" />
+        <com.google.android.exoplayer2.ui.SubtitleView
+            android:id="@+id/subtitleView"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ProgressBar
+            android:id="@+id/loadingExoplayer"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/colorOrange"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center" />
+
+    </RelativeLayout>
+    <Button
+        android:id="@+id/btnMirrorPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play"/>
+    <Button
+        android:id="@+id/btnMirrorPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pause"/>
+    <Button
+        android:id="@+id/btnSearchTv"
+        android:text="Search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btnDisconnectTv"
+        android:text="DisconnectTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+
+</LinearLayout>
