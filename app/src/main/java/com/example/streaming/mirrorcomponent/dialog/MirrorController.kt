@@ -1,6 +1,5 @@
 package com.example.streaming.mirrorcomponent.dialog
 
-import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.connectsdk.core.MediaInfo
@@ -12,21 +11,21 @@ import com.connectsdk.service.capability.*
 import com.connectsdk.service.command.ServiceCommandError
 
 class MirrorController(activity: AppCompatActivity) {
-    var mTV: ConnectableDevice? = null
-    var launcher: Launcher? = null
-    var mediaPlayer: MediaPlayer? = null
-    var mediaControl: MediaControl? = null
-    var tvControl: TVControl? = null
-    var volumeControl: VolumeControl? = null
-    var toastControl: ToastControl? = null
-    var mouseControl: MouseControl? = null
-    var textInputControl: TextInputControl? = null
-    var powerControl: PowerControl? = null
-    var externalInputControl: ExternalInputControl? = null
-    var keyControl: KeyControl? = null
-    var webAppLauncher: WebAppLauncher? = null
-    val mTVDevicesDialog = TVDevicesDialog.instance(activity)
-    val thumbnail = "https://cdn.filesend.jp/private/t1bePrF9qz8j9D0bhEmBO6bYOmfKkjZhriVpYqY0gP1CvTXhH4MKb4s8PClERGW9/Samsung-screen-Mirroring.jpg"
+    private var mTV: ConnectableDevice? = null
+    private var launcher: Launcher? = null
+    private var mediaPlayer: MediaPlayer? = null
+    private var mediaControl: MediaControl? = null
+    private var tvControl: TVControl? = null
+    private var volumeControl: VolumeControl? = null
+    private var toastControl: ToastControl? = null
+    private var mouseControl: MouseControl? = null
+    private var textInputControl: TextInputControl? = null
+    private var powerControl: PowerControl? = null
+    private var externalInputControl: ExternalInputControl? = null
+    private var keyControl: KeyControl? = null
+    private var webAppLauncher: WebAppLauncher? = null
+    private val mTVDevicesDialog = TVDevicesDialog.instance(activity)
+    private val thumbnail = "https://cdn.filesend.jp/private/t1bePrF9qz8j9D0bhEmBO6bYOmfKkjZhriVpYqY0gP1CvTXhH4MKb4s8PClERGW9/Samsung-screen-Mirroring.jpg"
     private val deviceListener: ConnectableDeviceListener = object : ConnectableDeviceListener {
         override fun onPairingRequired(
                 device: ConnectableDevice,
@@ -59,10 +58,10 @@ class MirrorController(activity: AppCompatActivity) {
             registerSuccess(mTv = mTV)
             castThumbnailToScreen(object :MediaPlayer.LaunchListener{
                 override fun onError(error: ServiceCommandError?) {
-                    if (error?.message == ""){
-
+                    if (error?.message == "Unauthorized"){
+                        mTVDevicesDialog.showEnterPairCode(itemClickListener = itemClickListener)
                     }
-                    mTVDevicesDialog.showEnterPairCode(itemClickListener = itemClickListener)
+
                 }
 
                 override fun onSuccess(`object`: MediaPlayer.MediaLaunchObject?) {
@@ -88,9 +87,9 @@ class MirrorController(activity: AppCompatActivity) {
     }
 
     private val itemClickListener = object : TVDevicesDialog.OnItemClickListener {
-        override fun onConnectTV(parent: AdapterView<*>?, positionDevices: Int) {
-            mTV = parent?.getItemAtPosition(positionDevices) as ConnectableDevice
-            mTV?.setPairingType(DeviceService.PairingType.PIN_CODE)
+        override fun onConnectTV(device: ConnectableDevice?) {
+            mTV = device
+            mTV?.setPairingType(null)
             mTV?.addListener(deviceListener)
             mTV?.connect()
 
@@ -137,6 +136,7 @@ class MirrorController(activity: AppCompatActivity) {
         if (mTV?.isConnected == true){
             mTV?.disconnect()
 //            mTV?.removeListener(deviceListener)
+            mTV = null
         }
     }
 

@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.text.InputType
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.connectsdk.device.ConnectableDevice
@@ -28,10 +27,9 @@ class TVDevicesDialog() {
     fun showDevices(itemClickListener: OnItemClickListener) {
         dp = DevicePicker(activity)
         dialog = dp?.getPickerDialog("Cast to") { parent, view, position, id ->
-            itemClickListener.onConnectTV(
-                parent = parent,
-                positionDevices = position
-            )
+            mTV = parent?.getItemAtPosition(position) as ConnectableDevice
+            itemClickListener.onConnectTV(mTV)
+            dp?.pickDevice(mTV)
         }
         dialog?.show()
 
@@ -84,7 +82,7 @@ class TVDevicesDialog() {
     }
 
     interface OnItemClickListener{
-        fun onConnectTV(parent: AdapterView<*>?, positionDevices: Int)
+        fun onConnectTV(device: ConnectableDevice?)
         fun onEnterPairingCode(value: String)
         fun onNotConfirmParingCode()
     }

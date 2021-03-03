@@ -10,6 +10,8 @@ import androidx.mediarouter.app.MediaRouteButton
 import com.connectsdk.core.MediaInfo
 import com.connectsdk.core.SubtitleInfo
 import com.connectsdk.discovery.DiscoveryManager
+import com.connectsdk.discovery.DiscoveryProvider
+import com.connectsdk.service.DeviceService
 import com.connectsdk.service.capability.MediaPlayer
 import com.connectsdk.service.command.ServiceCommandError
 import com.example.streaming.R
@@ -86,21 +88,21 @@ class StreamViewHelper(
 
     fun initComponentMirror(){
         val mDiscoveryManager = DiscoveryManager.getInstance()
-        mDiscoveryManager.registerDefaultDeviceTypes()
+//        mDiscoveryManager.registerDefaultDeviceTypes()
         mDiscoveryManager.setPairingLevel(DiscoveryManager.PairingLevel.ON)
-//        try {
-//            // AirPlay
-////            mDiscoveryManager?.registerDeviceService(Class.forName("com.connectsdk.service.AirPlayService") as Class<DeviceService?>,
-////                Class.forName("com.connectsdk.discovery.provider.ZeroconfDiscoveryProvider") as Class<DiscoveryProvider?>)
-//            // webOS SSAP (Simple Service Access Protocol)
-////            mDiscoveryManager?.registerDeviceService(Class.forName("com.connectsdk.service.WebOSTVService") as Class<DeviceService?>,
-////                    Class.forName("com.connectsdk.discovery.provider.SSDPDiscoveryProvider") as Class<DiscoveryProvider?>)
-////            // DLNA
-////            mDiscoveryManager?.registerDeviceService(Class.forName("com.connectsdk.service.DLNAService") as Class<DeviceService?>,
-////                    Class.forName("com.connectsdk.discovery.provider.SSDPDiscoveryProvider") as Class<DiscoveryProvider?>)
-//        } catch (e: ClassNotFoundException) {
-//            e.printStackTrace()
-//        }
+        try {
+//             //AirPlay
+//            mDiscoveryManager?.registerDeviceService(Class.forName("com.connectsdk.service.AirPlayService") as Class<DeviceService?>,
+//                Class.forName("com.connectsdk.discovery.provider.ZeroconfDiscoveryProvider") as Class<DiscoveryProvider?>)
+             //webOS SSAP (Simple Service Access Protocol)
+            mDiscoveryManager?.registerDeviceService(Class.forName("com.connectsdk.service.WebOSTVService") as Class<DeviceService?>,
+                    Class.forName("com.connectsdk.discovery.provider.SSDPDiscoveryProvider") as Class<DiscoveryProvider?>)
+            // DLNA
+            mDiscoveryManager?.registerDeviceService(Class.forName("com.connectsdk.service.DLNAService") as Class<DeviceService?>,
+                    Class.forName("com.connectsdk.discovery.provider.SSDPDiscoveryProvider") as Class<DiscoveryProvider?>)
+        } catch (e: ClassNotFoundException) {
+            e.printStackTrace()
+        }
         DiscoveryManager.getInstance().start()
 
 
@@ -191,7 +193,7 @@ class StreamViewHelper(
         mMirrorController.disconnectTv()
     }
     fun checkCapability():String{
-        return if (mMirrorController.getTv()!!.hasCapability(MediaPlayer.Subtitle_SRT))
+        return if (mMirrorController.getTv()?.hasCapability(MediaPlayer.Subtitle_SRT) == true)
             subtitleUrl
         else
                 ""
