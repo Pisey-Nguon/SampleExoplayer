@@ -1,97 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/customPlayBackControlView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBlackTransparent20"
     android:orientation="vertical">
+
     <LinearLayout
-        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_centerInParent="true"
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
+        <ImageButton
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            android:background="@null"
+            android:layout_width="?android:actionBarSize"
+            android:layout_height="?android:actionBarSize"/>
+        <LinearLayout
+            android:layout_weight="1"
+            android:gravity="end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btnMirror"
+                android:background="@android:color/transparent"
+                android:text="Screen Mirror"
+                android:textAllCaps="false"
+                android:drawableLeft="@drawable/exo_ic_subtitle_on"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:background="@android:color/transparent"
+                android:text="Audio&amp;Subtitles"
+                android:textAllCaps="false"
+                android:drawableLeft="@drawable/exo_ic_subtitle_on"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:id="@+id/btnSetting"
+                android:background="@android:color/transparent"
+                android:text="Setting"
+                android:textAllCaps="false"
+                android:drawableLeft="@drawable/ic_setting_fill_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <com.lukelorusso.verticalseekbar.VerticalSeekBar
             android:id="@+id/seekBarControllerBrightness"
-            android:layout_marginStart="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:splitTrack="false"
-            android:progressDrawable="@drawable/seekbar_exo_controller"
-            android:thumb="@drawable/seekbar_drawable_thum"
-            app:seekBarRotation="CW270"/>
+            android:layout_width="60dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            app:vsb_bar_background="#4E4A4A"
+            app:vsb_bar_corner_radius="15dp"
+            app:vsb_bar_progress_gradient_end="#C4C4C4"
+            app:vsb_bar_progress_gradient_start="#C4C4C4"
+            app:vsb_bar_width="15dp"
+            app:vsb_click_to_set_progress="true"
+            app:vsb_max_placeholder_position="inside"
+            app:vsb_max_placeholder_src="@drawable/background_blank"
+            app:vsb_min_placeholder_position="inside"
+            app:vsb_min_placeholder_src="@drawable/background_blank"
+            app:vsb_show_thumb="false"
+            app:vsb_thumb_container_corner_radius="5dp"
+            app:vsb_thumb_container_tint="@color/colorAccent"
+            app:vsb_use_thumb_to_set_progress="true"/>
+
         <LinearLayout
             android:layout_weight="1"
             android:gravity="center_horizontal"
+            android:orientation="horizontal"
             android:layout_width="0dp"
             android:layout_height="wrap_content">
             <ImageButton
                 android:id="@+id/btnRewind"
+                android:layout_marginHorizontal="40dp"
                 android:src="@drawable/exo_ic_rewind"
                 android:background="@null"
                 android:layout_width="50dp"
                 android:layout_height="50dp"/>
             <ImageButton
                 android:id="@+id/btnPlay"
+                android:layout_marginHorizontal="40dp"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@null"
                 android:src="@drawable/exo_controls_play" />
             <ImageButton
                 android:id="@+id/btnForward"
+                android:layout_marginHorizontal="40dp"
                 android:src="@drawable/exo_ic_forward"
                 android:background="@null"
                 android:layout_width="50dp"
                 android:layout_height="50dp"/>
         </LinearLayout>
-        <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
+        <com.lukelorusso.verticalseekbar.VerticalSeekBar
             android:id="@+id/seekBarControllerVolume"
-            android:layout_marginEnd="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:splitTrack="false"
-            android:progressDrawable="@drawable/seekbar_exo_controller"
-            android:thumb="@drawable/seekbar_drawable_thum"
-            app:seekBarRotation="CW270"/>
+            android:layout_width="60dp"
+            android:layout_height="120dp"
+            app:vsb_bar_background="#4E4A4A"
+            app:vsb_bar_corner_radius="15dp"
+            app:vsb_bar_progress_gradient_end="#C4C4C4"
+            app:vsb_bar_progress_gradient_start="#C4C4C4"
+            app:vsb_bar_width="15dp"
+            app:vsb_click_to_set_progress="true"
+            app:vsb_max_placeholder_position="inside"
+            app:vsb_max_placeholder_src="@drawable/background_blank"
+            app:vsb_min_placeholder_position="inside"
+            app:vsb_thumb_container_corner_radius="5dp"
+            app:vsb_min_placeholder_src="@drawable/background_blank"
+            app:vsb_show_thumb="false"
+
+            app:vsb_thumb_container_tint="@color/colorAccent"
+            app:vsb_use_thumb_to_set_progress="true"/>
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_alignParentEnd="true"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <Button
-            android:layout_alignParentEnd="true"
-            android:background="@android:color/transparent"
-            android:text="Screen Mirror"
-            android:textAllCaps="false"
-            android:drawableLeft="@drawable/exo_ic_subtitle_on"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:layout_alignParentEnd="true"
-            android:background="@android:color/transparent"
-            android:text="Audio&amp;Subtitles"
-            android:textAllCaps="false"
-            android:drawableLeft="@drawable/exo_ic_subtitle_on"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:id="@+id/btnSetting"
-            android:background="@android:color/transparent"
-            android:text="Setting"
-            android:textAllCaps="false"
-            android:drawableLeft="@drawable/ic_setting_fill_white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -124,5 +158,5 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
 

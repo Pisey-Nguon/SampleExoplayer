@@ -96,5 +96,6 @@ dependencies {
 //    implementation 'com.github.ConnectSDK:Connect-SDK-Android-Lite:master-SNAPSHOT'
     implementation project(':Connect-SDK-Android')
     implementation 'com.swipper.library:library:0.1.1'
-    implementation 'com.h6ah4i.android.widget.verticalseekbar:verticalseekbar:1.0.0'
+//    implementation 'com.h6ah4i.android.widget.verticalseekbar:verticalseekbar:1.0.0'
+    implementation 'com.lukelorusso:verticalseekbar:1.1.5'
 }

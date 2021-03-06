@@ -9,7 +9,7 @@ import com.connectsdk.service.DIALService
 class MainApplication:MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
-        DIALService.registerApp("Levak")
+        DIALService.registerApp("com.example.streaming")
         DiscoveryManager.init(applicationContext)
     }
     override fun attachBaseContext(base: Context?) {

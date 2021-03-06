@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(),View.OnClickListener{
         mViewHelper = StreamViewHelper(activity = this, mViewBinding = mViewBinding)
         mViewHelper.initComponentClick(listener = this)
         mViewHelper.initComponentMirror()
-//        mLogicHelper.initComponentStream()
+        mLogicHelper.initComponentStream()
 
     }
 
@@ -72,13 +72,17 @@ class MainActivity : AppCompatActivity(),View.OnClickListener{
             mViewBinding.btnMirrorPause.id -> {
             }
             mViewBinding.btnMirrorPlay.id -> {
-                mViewHelper.castVideoToScreen()
+//                mViewHelper.castVideoToScreen()
             }
             mViewBinding.btnSearchTv.id -> {
-                mViewHelper.showTVDevices()
+//                mViewHelper.showTVDevices()
             }
             mViewBinding.btnDisconnectTv.id ->{
-                mViewHelper.disconnectTV()
+//                mViewHelper.disconnectTV()
+            }
+            R.id.btnMirror ->{
+                mLogicHelper.showTVDevices()
+//                mViewHelper.showTVDevices()
             }
         }
     }

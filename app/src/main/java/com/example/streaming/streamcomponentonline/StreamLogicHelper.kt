@@ -8,9 +8,18 @@ import android.content.DialogInterface
 import android.net.Uri
 import android.util.Log
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.connectsdk.core.MediaInfo
+import com.connectsdk.core.SubtitleInfo
+import com.connectsdk.service.capability.MediaControl
+import com.connectsdk.service.capability.MediaControl.*
+import com.connectsdk.service.capability.MediaPlayer
+import com.connectsdk.service.capability.listeners.ResponseListener
+import com.connectsdk.service.command.ServiceCommandError
 import com.example.streaming.activity.MainActivity
 import com.example.streaming.base.DemoUtil
+import com.example.streaming.mirrorcomponent.dialog.MirrorController
 import com.example.streaming.streamcomponentonline.StreamGenerator.listExoBitrate
 import com.example.streaming.streamcomponentonline.StreamGenerator.listExoHeightResolution
 import com.example.streaming.streamservice.DemoDownloadService
@@ -28,6 +37,9 @@ import com.google.android.exoplayer2.ui.SubtitleView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.util.Util
 import java.io.*
+import java.util.*
+import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 
 class StreamLogicHelper(private val activity: MainActivity) {
@@ -44,6 +56,10 @@ class StreamLogicHelper(private val activity: MainActivity) {
     private lateinit var downloadManager: DownloadManager
     private lateinit var listHeightResolution: ArrayList<Int>
     private lateinit var myDownloadHelper: DownloadHelper
+    private var refreshTimer: Timer? = null
+    private var totalTimeDuration:Long = 0
+    private var REFRESH_INTERVAL_MS = TimeUnit.SECONDS.toMillis(1).toInt()
+    val mMirrorController = MirrorController(activity = activity)
 //    private var trackKeys: ArrayList<TrackKey> = ArrayList()
 //    private var optionsToDownload: ArrayList<String> = ArrayList()
 
@@ -57,6 +73,7 @@ class StreamLogicHelper(private val activity: MainActivity) {
 
     fun initComponentStream(){
         initializePlayer()
+        initControllerMedia()
 
 //        CastButtonFactory.setUpMediaRouteButton(activity.applicationContext,  activity.mMediaRouteButton);
         downloadTracker = DemoUtil.getDownloadTracker( /* context= */activity.applicationContext)
@@ -143,30 +160,7 @@ class StreamLogicHelper(private val activity: MainActivity) {
 
     }
 
-    private val analyticsListener = object: AnalyticsListener{
-        override fun onVideoSizeChanged(
-                eventTime: AnalyticsListener.EventTime,
-                width: Int,
-                height: Int,
-                unappliedRotationDegrees: Int,
-                pixelWidthHeightRatio: Float
-        ) {
-            super.onVideoSizeChanged(
-                    eventTime,
-                    width,
-                    height,
-                    unappliedRotationDegrees,
-                    pixelWidthHeightRatio
-            )
-            val aspectRatio:Float = width.toFloat()/height.toFloat()
-            val exoWidth = activity.mViewHelper.getPlayerWidth()
-            val exoHeight:Float = exoWidth/aspectRatio
-            DistantConverter.setAnimationHeight(
-                    view = activity.mViewHelper.getPlayerView(),
-                    toHeight = exoHeight.toInt()
-            )
-        }
-    }
+
 
     private val playbackPreparer = PlaybackPreparer {
 
@@ -175,7 +169,7 @@ class StreamLogicHelper(private val activity: MainActivity) {
     private val textOutputListener = TextOutput {
         subtitleView.setCues(it)
 //        subtitleView.setStyle(CaptionStyleCompat())
-        Log.d("checkSub","sub"+it)
+        Log.d("checkSub", "sub" + it)
 
     }
 
@@ -195,7 +189,6 @@ class StreamLogicHelper(private val activity: MainActivity) {
         ).setTrackSelector(trackSelector).setLoadControl(StreamController.getDefaultController()).build()
 
         player.addListener(playerEventListener)
-        player.addAnalyticsListener(analyticsListener)
 //        player.addTextOutput(textOutputListener)
         player.playWhenReady = startAutoPlay
 //        player.addAnalyticsListener(EventLogger(trackSelector))
@@ -206,7 +199,7 @@ class StreamLogicHelper(private val activity: MainActivity) {
         playerView.setPlaybackPreparer(playbackPreparer)
         dataSourceFactory = DemoUtil.getDataSourceFactory(activity.applicationContext)
         videoMediaSource = StreamBuilder.buildVideoMediaSource(uri = Uri.parse(streamUrl), dataSourceFactory = dataSourceFactory) ?: return
-        subtitleMediaSource = StreamBuilder.buildSubtitleMediaSource(uri = Uri.parse(subtitleUrl),dataSourceFactory = dataSourceFactory)
+        subtitleMediaSource = StreamBuilder.buildSubtitleMediaSource(uri = Uri.parse(subtitleUrl), dataSourceFactory = dataSourceFactory)
         val mergingMediaSource = MergingMediaSource(videoMediaSource, subtitleMediaSource)
         player.setMediaSource(mergingMediaSource)
         player.prepare()
@@ -392,5 +385,182 @@ class StreamLogicHelper(private val activity: MainActivity) {
                 /* foreground= */ false
         )
 //        downloadManager.removeDownload(downloadRequest.id)
+    }
+
+    private val positionListener: PositionListener = object : PositionListener {
+        override fun onError(error: ServiceCommandError) {}
+        override fun onSuccess(position: Long) {
+//            positionTextView.setText(formatTime(position.toInt().toLong()))
+//            mSeekBar.setProgress(position.toInt())
+        }
+    }
+
+    private val durationListener: DurationListener = object : DurationListener {
+        override fun onError(error: ServiceCommandError) {}
+        override fun onSuccess(duration: Long) {
+            totalTimeDuration = duration
+//            mSeekBar.setMax(duration.toInt())
+//            durationTextView.setText(formatTime(duration.toInt().toLong()))
+        }
+    }
+    fun initControllerMedia(){
+        if (mMirrorController.mTV?.hasCapability(PlayState_Subscribe) == true) {
+            mMirrorController.mediaControl?.subscribePlayState(playStateListener)
+        } else {
+            if (mMirrorController.mediaControl != null) {
+                mMirrorController.mediaControl?.getDuration(durationListener)
+            }
+            startUpdating()
+        }
+        activity.mViewHelper.btnSeekBarControllerVolume.setOnProgressChangeListener {
+
+        }
+        activity.mViewHelper.btnSeekBarControllerBrightness.setOnProgressChangeListener {
+            Log.d("checkTime", "time ${it}")
+            onSeekBarMoved(it.toLong())
+        }
+        player.addAnalyticsListener(object : AnalyticsListener {
+            override fun onTimelineChanged(eventTime: AnalyticsListener.EventTime, reason: Int) {
+                super.onTimelineChanged(eventTime, reason)
+
+            }
+        })
+    }
+    private fun onSeekBarMoved(position: Long) {
+        if (mMirrorController.mediaControl != null && mMirrorController.mTV?.hasCapability(MediaControl.Seek) == true) {
+//            mSeeking = true
+            mMirrorController.mediaControl!!.seek(position, object : ResponseListener<Any?> {
+                override fun onSuccess(response: Any?) {
+                    Log.d("checkTime", "Success on Seeking")
+
+                }
+
+                override fun onError(error: ServiceCommandError) {
+                    Log.w("checkTime", "Unable to seek: " + error.code)
+
+                }
+            })
+        }
+    }
+
+    private fun formatTime(millisec: Long): String? {
+        var seconds = (millisec / 1000).toInt()
+        val hours = seconds / (60 * 60)
+        seconds %= 60 * 60
+        val minutes = seconds / 60
+        seconds %= 60
+        val time: String
+        time = if (hours > 0) {
+            String.format(Locale.US, "%d:%02d:%02d", hours, minutes, seconds)
+        } else {
+            String.format(Locale.US, "%d:%02d", minutes, seconds)
+        }
+        return time
+    }
+
+    var playStateListener: PlayStateListener = object : PlayStateListener {
+        override fun onError(error: ServiceCommandError) {
+            Log.d("LG", "Playstate Listener error = $error")
+        }
+
+        override fun onSuccess(playState: PlayStateStatus) {
+            Log.d("LG", "Playstate changed | playState = $playState")
+            when (playState) {
+                PlayStateStatus.Playing -> {
+                    startUpdating()
+                    if (mMirrorController.mediaControl != null && mMirrorController.mTV?.hasCapability(Duration) == true) {
+                        mMirrorController.mediaControl!!.getDuration(durationListener)
+                    }
+                }
+                PlayStateStatus.Finished -> {
+//                    positionTextView.setText("--:--")
+//                    durationTextView.setText("--:--")
+//                    mSeekBar.setProgress(0)
+                    stopUpdating()
+                }
+                else -> stopUpdating()
+            }
+        }
+    }
+
+    private fun startUpdating() {
+        if (refreshTimer != null) {
+            refreshTimer?.cancel()
+            refreshTimer = null
+        }
+        refreshTimer = Timer()
+        refreshTimer?.schedule(object : TimerTask() {
+            override fun run() {
+                Log.d("LG", "Updating information")
+                if (mMirrorController.mediaControl != null && mMirrorController.mTV != null && mMirrorController.mTV?.hasCapability(MediaControl.Position) == true) {
+                    mMirrorController.mediaControl?.getPosition(positionListener)
+                }
+                if (mMirrorController.mediaControl != null && mMirrorController.mTV != null && mMirrorController.mTV!!.hasCapability(MediaControl.Duration) && !mMirrorController.mTV!!.hasCapability(MediaControl.PlayState_Subscribe) && totalTimeDuration <= 0) {
+                    mMirrorController.mediaControl!!.getDuration(durationListener)
+                }
+            }
+        }, 0, REFRESH_INTERVAL_MS.toLong())
+    }
+
+    private fun stopUpdating() {
+        if (refreshTimer == null) return
+        refreshTimer?.cancel()
+        refreshTimer = null
+    }
+
+    fun showTVDevices(){
+        if (mMirrorController.isConnected() == true){
+            Toast.makeText(activity, "User click disconnect", Toast.LENGTH_SHORT).show()
+            disconnectTV()
+        }else{
+            Toast.makeText(activity, "User click show devices", Toast.LENGTH_SHORT).show()
+            mMirrorController.showListDevices()
+        }
+    }
+    fun disconnectTV(){
+        mMirrorController.disconnectTv()
+        if (mMirrorController.mediaPlayer != null) {
+            if (mMirrorController.launchSession != null) mMirrorController.launchSession?.close(null)
+            mMirrorController.launchSession = null
+//            disableMedia()
+            stopUpdating()
+//            isPlayingImage = false
+//            isPlaying = isPlayingImage
+//            testResponse = TestResponseObject(true, TestResponseObject.SuccessCode, TestResponseObject.Closed_Media)
+        }
+    }
+
+    private fun checkCapability():String{
+        return if (mMirrorController.getTv()?.hasCapability(MediaPlayer.Subtitle_SRT) == true)
+            subtitleUrl
+        else
+            ""
+    }
+
+    fun castVideoToScreen(){
+        val subtitleBuilder: SubtitleInfo.Builder?
+        subtitleBuilder = SubtitleInfo.Builder(checkCapability())
+        subtitleBuilder.setLabel("English").setLanguage("en")
+
+        val mediaInfo: MediaInfo = MediaInfo.Builder(streamUrl, "video/m3u8")
+                .setTitle("Media Mirror")
+                .setDescription("One SDK Eight Media Platforms")
+//                .setIcon(thumbnail)
+                .setSubtitleInfo(subtitleBuilder.build())
+                .build()
+        mMirrorController.castVideoToScreen(mediaInfo = mediaInfo, shouldLoop = false,
+                launchListener = object :
+                        MediaPlayer.LaunchListener {
+                    override fun onError(error: ServiceCommandError?) {
+                        error
+                    }
+
+                    override fun onSuccess(success: MediaPlayer.MediaLaunchObject?) {
+                        mMirrorController.setLaunchSession(success?.launchSession)
+                        success
+                    }
+
+                })
+
     }
 }

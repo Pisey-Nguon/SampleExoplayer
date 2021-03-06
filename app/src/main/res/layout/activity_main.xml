@@ -58,7 +58,7 @@
         <com.google.android.exoplayer2.ui.PlayerView
             android:id="@+id/playerView"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="match_parent"
             android:animateLayoutChanges="false"
             android:background="@color/colorBlack"
             app:controller_layout_id="@layout/overlay_controller_media"
@@ -81,21 +81,25 @@
     </RelativeLayout>
     <Button
         android:id="@+id/btnMirrorPlay"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Play"/>
     <Button
         android:id="@+id/btnMirrorPause"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="pause"/>
     <Button
         android:id="@+id/btnSearchTv"
+        android:visibility="gone"
         android:text="Search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Button
         android:id="@+id/btnDisconnectTv"
+        android:visibility="gone"
         android:text="DisconnectTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

@@ -7,39 +7,37 @@ import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.mediarouter.app.MediaRouteButton
-import com.connectsdk.core.MediaInfo
-import com.connectsdk.core.SubtitleInfo
 import com.connectsdk.discovery.DiscoveryManager
 import com.connectsdk.discovery.DiscoveryProvider
 import com.connectsdk.service.DeviceService
-import com.connectsdk.service.capability.MediaPlayer
-import com.connectsdk.service.command.ServiceCommandError
 import com.example.streaming.R
 import com.example.streaming.activity.MainActivity
 import com.example.streaming.databinding.ActivityMainBinding
-import com.example.streaming.mirrorcomponent.dialog.MirrorController
 import com.example.streaming.streamdialog.ItemListDownloadDialogFragment
 import com.google.android.exoplayer2.ui.PlayerView
+import com.lukelorusso.verticalseekbar.VerticalSeekBar
 
 class StreamViewHelper(
     private val activity: MainActivity,
     private val mViewBinding: ActivityMainBinding
 ) {
 
-    private val toolbar = activity.findViewById<Toolbar>(R.id.exoToolbar)
-    private val btnDownload = activity.findViewById<Button>(R.id.btnDownload)
-    private val btnPause = activity.findViewById<Button>(R.id.btnPause)
-    private val btnResume = activity.findViewById<Button>(R.id.btnResume)
-    private val btnOpenPlay = activity.findViewById<Button>(R.id.btnOpenPlay)
-    private val btnPlay = activity.findViewById<ImageButton>(R.id.btnPlay)
-    private val btnSetting = activity.findViewById<Button>(R.id.btnSetting)
+    val toolbar = activity.findViewById<Toolbar>(R.id.exoToolbar)
+    val btnDownload = activity.findViewById<Button>(R.id.btnDownload)
+    val btnPause = activity.findViewById<Button>(R.id.btnPause)
+    val btnResume = activity.findViewById<Button>(R.id.btnResume)
+    val btnOpenPlay = activity.findViewById<Button>(R.id.btnOpenPlay)
+    val btnPlay = activity.findViewById<ImageButton>(R.id.btnPlay)
+    val btnSetting = activity.findViewById<Button>(R.id.btnSetting)
 
-    private val btnSeekForward = activity.findViewById<ImageButton>(R.id.btnForward)
-    private val btnSeekRewind = activity.findViewById<ImageButton>(R.id.btnRewind)
-    private val loadingExoplayer = activity.findViewById<ProgressBar>(R.id.loadingExoplayer)
-    private val mMediaRouteButton = activity.findViewById<MediaRouteButton>(R.id.media_route_button)
+    val btnSeekForward = activity.findViewById<ImageButton>(R.id.btnForward)
+    val btnSeekRewind = activity.findViewById<ImageButton>(R.id.btnRewind)
+    val loadingExoplayer = activity.findViewById<ProgressBar>(R.id.loadingExoplayer)
+    val mMediaRouteButton = activity.findViewById<MediaRouteButton>(R.id.media_route_button)
+    val btnMirror = activity.findViewById<Button>(R.id.btnMirror)
+    val btnSeekBarControllerVolume = activity.findViewById<VerticalSeekBar>(R.id.seekBarControllerVolume)
+    val btnSeekBarControllerBrightness = activity.findViewById<VerticalSeekBar>(R.id.seekBarControllerBrightness)
 
-    private val mMirrorController = MirrorController(activity = activity)
 
 //        val streamUrl = "https://milio-media.s3-ap-southeast-1.amazonaws.com/another-stream/1575271849439-649b8d93c8416bf0e0d269655b40b52f8987e918277699e973a265facc7862af.m3u8"
     val streamUrl = "https://d2cqvl54b1gtkt.cloudfront.net/PRODUCTION/5d85da3fa81ada4c66211a07/media/post/video/1613121797855-35ad0c18-ba1a-4cb1-97b9-fe307269ecbc/1613121797856-7b6ee2437302d02c26d14d325fd7f56a0ce51591e690.mp4"
@@ -83,6 +81,7 @@ class StreamViewHelper(
 
         btnSeekForward.setOnClickListener(listener)
         btnSeekRewind.setOnClickListener(listener)
+        btnMirror.setOnClickListener(listener)
     }
 
 
@@ -95,8 +94,8 @@ class StreamViewHelper(
 //            mDiscoveryManager?.registerDeviceService(Class.forName("com.connectsdk.service.AirPlayService") as Class<DeviceService?>,
 //                Class.forName("com.connectsdk.discovery.provider.ZeroconfDiscoveryProvider") as Class<DiscoveryProvider?>)
              //webOS SSAP (Simple Service Access Protocol)
-            mDiscoveryManager?.registerDeviceService(Class.forName("com.connectsdk.service.WebOSTVService") as Class<DeviceService?>,
-                    Class.forName("com.connectsdk.discovery.provider.SSDPDiscoveryProvider") as Class<DiscoveryProvider?>)
+//            mDiscoveryManager?.registerDeviceService(Class.forName("com.connectsdk.service.WebOSTVService") as Class<DeviceService?>,
+//                    Class.forName("com.connectsdk.discovery.provider.SSDPDiscoveryProvider") as Class<DiscoveryProvider?>)
             // DLNA
             mDiscoveryManager?.registerDeviceService(Class.forName("com.connectsdk.service.DLNAService") as Class<DeviceService?>,
                     Class.forName("com.connectsdk.discovery.provider.SSDPDiscoveryProvider") as Class<DiscoveryProvider?>)
@@ -104,7 +103,7 @@ class StreamViewHelper(
             e.printStackTrace()
         }
         DiscoveryManager.getInstance().start()
-
+//        btnSeekBarControllerVolume.setOnSeekBarChangeListener(volumeListener)
 
 
     }
@@ -184,45 +183,6 @@ class StreamViewHelper(
             }
         })
         bottomSheet.show(activity.supportFragmentManager, "")
-    }
-
-    fun showTVDevices(){
-        mMirrorController.showListDevices()
-    }
-    fun disconnectTV(){
-        mMirrorController.disconnectTv()
-    }
-    fun checkCapability():String{
-        return if (mMirrorController.getTv()?.hasCapability(MediaPlayer.Subtitle_SRT) == true)
-            subtitleUrl
-        else
-                ""
-    }
-
-    fun castVideoToScreen(){
-        val subtitleBuilder: SubtitleInfo.Builder?
-        subtitleBuilder = SubtitleInfo.Builder(checkCapability())
-        subtitleBuilder.setLabel("English").setLanguage("en")
-
-        val mediaInfo: MediaInfo = MediaInfo.Builder(streamUrl, "video/mp4")
-            .setTitle("Media Mirror")
-            .setDescription("One SDK Eight Media Platforms")
-            .setIcon(thumbnail)
-            .setSubtitleInfo(subtitleBuilder.build())
-            .build()
-        mMirrorController.castVideoToScreen(mediaInfo = mediaInfo,shouldLoop = false,
-            launchListener = object:
-            MediaPlayer.LaunchListener{
-            override fun onError(error: ServiceCommandError?) {
-                error
-            }
-
-            override fun onSuccess(success: MediaPlayer.MediaLaunchObject?) {
-                success
-            }
-
-        })
-
     }
 
 
